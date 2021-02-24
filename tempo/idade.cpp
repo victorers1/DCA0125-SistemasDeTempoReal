@@ -27,10 +27,10 @@ int main()
     birth_datetime->tm_sec = 0;
 
     time_t birth_in_seconds = mktime(birth_datetime);
-    cout << "Seconds from epoch to birth: " << birth_in_seconds << endl;
+    cout << "Time from epoch to birth: " << birth_in_seconds << " s" << endl;
 
     time_t time_lived_in_seconds = now_in_seconds - birth_in_seconds;
-    cout << "Time lived in seconds: " << time_lived_in_seconds << endl;
+    cout << "Time lived: " << time_lived_in_seconds << " s" << endl;
 
     return 0;
 }
