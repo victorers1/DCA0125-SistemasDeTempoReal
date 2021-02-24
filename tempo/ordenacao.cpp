@@ -81,10 +81,8 @@ float calcTempoMili(struct timeval inicio, struct timeval fim)
 	return (float)(1000 * (fim.tv_sec - inicio.tv_sec) + (fim.tv_usec - inicio.tv_usec) / 1000) / 1000;
 }
 
-int main()
+void medeTempoExec(int n)
 {
-	//Tamanho do vetor
-	int n = 40000;
 	time_t inicio_t, fim_t, intervalo_t;
 	struct timeval inicio, fim, intervalo;
 
@@ -92,24 +90,27 @@ int main()
 	criarVetor(n, 23);
 
 	//Ordenar utilizando quickSort
-	inicio_t = time(0);
 	gettimeofday(&inicio, NULL);
 	qsort(vetorQuickSort, n, sizeof(int), compare_ints);
 	gettimeofday(&fim, NULL);
-	fim_t = time(0);
-	intervalo_t = (fim_t) - (inicio_t);
-	cout << "Tempo do quicksort: " << calcTempoMili(inicio, fim) << "s\n";
-	// cout << "Tempo do quicksort: " << intervalo_t << " s\n";
+	cout << "Tempo do quicksort: " << calcTempoMili(inicio, fim) << " s\n";
 
 	//Ordenar utilizando bubleSort
-	inicio_t = time(0);
 	gettimeofday(&inicio, NULL);
 	bubbleSort(vetorBubbleSort, n);
 	gettimeofday(&fim, NULL);
-	fim_t = time(0);
-	intervalo_t = (fim_t) - (inicio_t);
-	cout << "Tempo do bubblesort: " << calcTempoMili(inicio, fim) << "s\n";
-	// cout << "Tempo do bubblesort: " << intervalo_t << " s\n";
+	cout << "Tempo do bubblesort: " << calcTempoMili(inicio, fim) << " s\n";
+}
+
+int main()
+{
+	int n[5] = {10000, 20000, 30000, 40000, 50000};
+
+	for (auto i : n)
+	{
+		cout << "Para n = " << i << ": " << endl;
+		medeTempoExec(i);
+	}
 
 	exit(0);
 }
