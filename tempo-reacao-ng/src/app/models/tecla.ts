@@ -1,5 +1,5 @@
 class Tecla {
-    constructor(public letra: string, public correta: boolean) { }
+    constructor(public id: number, public letra: string, public correta: boolean) { }
 }
 
 export default Tecla;

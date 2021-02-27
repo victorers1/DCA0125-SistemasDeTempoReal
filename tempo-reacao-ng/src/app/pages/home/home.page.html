@@ -3,18 +3,29 @@
     <ion-title>
       Tempo de Reação
     </ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="inicializaApp()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showInstrucoes()">
+        <ion-icon slot="icon-only" name="help-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
   <ion-item>
     <ion-label>Digite aqui:</ion-label>
-    <ion-input type="text" placeholder="sua resposta" [(ngModel)]="resposta"
+    <ion-input type="text" placeholder="sua resposta" [(ngModel)]="teclaPressionada"
       (ionInput)="teclaApertada($event.target.value)"></ion-input>
   </ion-item>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollEvents]="true">
+
   <ion-list>
-    <ion-item *ngFor="let t of teclas" class="ion-text-center">
-      <ion-label>{{t.letra}}</ion-label>
+    <ion-item *ngFor="let t of teclas" class="ion-text-center"
+      [color]="t.correta ? 'success' : t.correta==false ? 'danger': ''">
+      <ion-label id='{{t.id}}'>{{t.letra.toUpperCase()}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -8,20 +8,14 @@
   transform: translateY(-50%);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.item .item-inner {
+  background-color: transparent !important;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.resp-correta {
+  background-color: green;
 }
 
-#container a {
-  text-decoration: none;
+.resp-errada {
+  background-color: red;
 }
