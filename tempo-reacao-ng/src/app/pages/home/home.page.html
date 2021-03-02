@@ -4,8 +4,8 @@
       Tempo de Reação
     </ion-title>
     <ion-buttons slot="secondary">
-      <ion-button (click)="inicializaApp()">
-        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      <ion-button (click)="toggleApp()" expand="block" fill="solid" color="primary">
+        {{testeExecutando ? "Parar" : "Iniciar"}}
       </ion-button>
       <ion-button (click)="showInstrucoes()">
         <ion-icon slot="icon-only" name="help-outline"></ion-icon>
@@ -16,7 +16,7 @@
   <ion-item>
     <ion-label>Digite aqui:</ion-label>
     <ion-input type="text" placeholder="sua resposta" [(ngModel)]="teclaPressionada"
-      (ionInput)="teclaApertada($event.target.value)"></ion-input>
+      (ionInput)="quandoTeclaApertada($event.target.value)" [disabled]="!testeExecutando"></ion-input>
   </ion-item>
 </ion-header>
 
@@ -25,7 +25,7 @@
   <ion-grid>
     <ion-row>
 
-      <tecla-card *ngFor="let t of teclas" [tecla]="t"></tecla-card>
+      <tecla-card *ngFor="let t of teclas" [tecla]="t" class="tecla-{{t.id}}"></tecla-card>
 
     </ion-row>
   </ion-grid>

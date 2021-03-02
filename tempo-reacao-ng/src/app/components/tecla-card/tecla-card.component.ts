@@ -12,8 +12,6 @@ export class TeclaCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('tecla: ', this.tecla);
-
   }
 
 }
