@@ -83,10 +83,9 @@ float calcTempoMili(struct timeval inicio, struct timeval fim)
 
 void medeTempoExec(int n)
 {
-	time_t inicio_t, fim_t, intervalo_t;
-	struct timeval inicio, fim, intervalo;
+	struct timeval inicio, fim;
 
-	//Criar vetor com elementos aleatorios[0,100000]
+	//Criar vetor com elementos aleatorios [0,100000]
 	criarVetor(n, 23);
 
 	//Ordenar utilizando quickSort
@@ -108,7 +107,7 @@ int main()
 
 	for (auto i : n)
 	{
-		cout << "Para n = " << i << ": " << endl;
+		cout << "\n\nPara n = " << i << ": " << endl;
 		medeTempoExec(i);
 	}
 
