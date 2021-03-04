@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Tecla from 'src/app/models/tecla';
+import Key from 'src/app/models/key';
 
 @Component({
   selector: 'tecla-card',
@@ -7,7 +7,7 @@ import Tecla from 'src/app/models/tecla';
   styleUrls: ['./tecla-card.component.scss'],
 })
 export class TeclaCardComponent implements OnInit {
-  @Input() tecla: Tecla;
+  @Input() key: Key;
 
   constructor() { }
 

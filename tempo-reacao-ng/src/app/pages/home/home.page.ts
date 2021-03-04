@@ -1,7 +1,6 @@
-import { ReturnStatement } from '@angular/compiler';
 import { Component, ViewChild } from '@angular/core';
-import { AlertController, IonContent } from '@ionic/angular';
-import Tecla from "../../models/tecla";
+import { AlertController, IonContent, IonInput } from '@ionic/angular';
+import Key from '../../models/key';
 
 @Component({
   selector: 'app-home',
@@ -9,70 +8,86 @@ import Tecla from "../../models/tecla";
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  @ViewChild(IonContent, { static: false }) content: IonContent;
+  @ViewChild('inputChar', { static: false }) inputChar: IonInput;
+  //TODO: focus ion-input when test starts
 
-  testeExecutando: boolean = false;
+  isRunning: boolean = false;
 
-  texto: string = 'No meio do caminho tinha uma pedra Tinha uma pedra no meio do caminho Tinha uma pedra No meio do caminho tinha uma pedra Nunca me esquecerei desse acontecimento Na vida de minhas retinas tão fatigadas Nunca me esquecerei que no meio do caminho Tinha uma pedra Tinha uma pedra no meio do caminho No meio do caminho tinha uma pedra';
-  teclas: Tecla[] = [];
-  indiceProximaLetra: number = 0;
-  teclaPressionada: string;
+  chars: string = 'qweasdzxcrtyfghvbnuiojklm,.pç;/1234567890[]';
+  qtdKeys: number = 65;
+  keys: Key[] = [];
+  nextKeyIndex: number = 0;
+  pressedKeyChar: string;
 
-  temposReacao: number[] = [];
-  temposBotaoPressionado: number[] = [];
+  reactionTimes: number[] = [];
+  buttonPressedTimes: number[] = [];
 
-  constructor(public alertController: AlertController) {
-  }
+  executionTime: Date;
+  executionTimeText: string = '00:00:00';
+
+  constructor(public alertController: AlertController) { }
 
   toggleApp() {
-    if (this.testeExecutando) {
-      this.terminaApp();
+    if (this.isRunning) {
+      this.finishApp();
     } else {
-      this.inicializaApp();
+      this.initApp();
     }
   }
 
-  inicializaApp() {
-    this.teclas = this.texto.replace(/( )/g, '').toLowerCase().split('').map((l, index) => new Tecla(index, l, null));
-    this.indiceProximaLetra = 0;
-    this.teclaPressionada = '';
-    this.temposBotaoPressionado = [Date.now()];
-    this.testeExecutando = true;
+  initApp() {
+    const qtdChars = this.chars.length;
+    for (let i = 0; i < this.qtdKeys; i++) {
+      this.keys.push(new Key(i, this.chars[this.randomInt(qtdChars)], null));
+    }
+    this.nextKeyIndex = 0;
+    this.pressedKeyChar = '';
+    this.buttonPressedTimes = [Date.now()];
+    setInterval(
+      () => {
+        this.executionTime = new Date(0);
+        this.executionTime.setSeconds((Date.now() - this.buttonPressedTimes[0]) / 1000);
+        this.executionTimeText = this.executionTime.toISOString().substr(11, 8);
+      },
+      1000);
+    this.isRunning = true;
   }
 
-  terminaApp() {
-    this.testeExecutando = false;
-    this.teclaPressionada = '';
+  finishApp() {
+    this.isRunning = false;
+    this.pressedKeyChar = '';
   }
 
-  quandoTeclaApertada(s: string): void {
-    this.teclaPressionada = s[s.length - 1];
-    this.teclas[this.indiceProximaLetra].correta = this.teclaPressionada === this.teclas[this.indiceProximaLetra].letra;
+  randomInt(max: number) {
+    return Math.floor(Math.random() * max);
+  }
 
-    this.indiceProximaLetra++;
+  onKeyPressed(s: string): void {
+    this.pressedKeyChar = s[s.length - 1];
+    this.keys[this.nextKeyIndex].correct = this.pressedKeyChar === this.keys[this.nextKeyIndex].letter;
 
-    this.temposBotaoPressionado.push(Date.now());
-    this.temposReacao.push(
-      this.temposBotaoPressionado[this.indiceProximaLetra] -
-      this.temposBotaoPressionado[this.indiceProximaLetra - 1]
+    this.nextKeyIndex++;
+
+    this.buttonPressedTimes.push(Date.now());
+    this.reactionTimes.push(
+      this.buttonPressedTimes[this.nextKeyIndex] -
+      this.buttonPressedTimes[this.nextKeyIndex - 1]
     );
-
-
   }
 
-  calcMediaReacao(): number {
-    let somatorio: number = this.temposReacao.reduce((soma, atual) => soma + atual, 0);
-    return somatorio / this.temposReacao.length;
+  calcReactionMeanSeconds(): string {
+    let accumSum: number = this.reactionTimes.reduce((sum, current) => sum + current, 0);
+    return (accumSum / (this.reactionTimes.length || 1) / 1000).toFixed(1);
   }
 
   calcScore(): number {
-    return this.teclas.reduce(
-      (soma, tecla) => soma + (tecla.correta === true ? 1 : 0),
+    return this.keys.reduce(
+      (sum, key) => sum + (key.correct === true ? 1 : 0),
       0
     );
   }
 
-  async showInstrucoes() {
+  async showInstructions() {
     const alert = await this.alertController.create({
       header: 'Instruções',
       subHeader: 'Tempo de reação',
