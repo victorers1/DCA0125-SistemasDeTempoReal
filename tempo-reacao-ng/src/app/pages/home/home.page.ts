@@ -14,7 +14,7 @@ export class HomePage {
   isRunning: boolean = false;
 
   chars: string = 'qweasdzxcrtyfghvbnuiojklm,.pç;/1234567890[]';
-  qtdKeys: number = 65;
+  qtdKeys: number = 55;
   keys: Key[] = [];
   nextKeyIndex: number = 0;
   pressedKeyChar: string;
@@ -25,6 +25,8 @@ export class HomePage {
   executionTime: Date;
   executionTimeText: string = '00:00:00';
 
+  clockIntervalID;
+
   constructor(public alertController: AlertController) { }
 
   toggleApp() {
@@ -32,30 +34,37 @@ export class HomePage {
       this.finishApp();
     } else {
       this.initApp();
+      // TODO: focus ion-input
     }
   }
 
   initApp() {
     const qtdChars = this.chars.length;
+    this.keys = [];
+    this.reactionTimes = [];
+    this.buttonPressedTimes = [];
     for (let i = 0; i < this.qtdKeys; i++) {
       this.keys.push(new Key(i, this.chars[this.randomInt(qtdChars)], null));
     }
     this.nextKeyIndex = 0;
     this.pressedKeyChar = '';
     this.buttonPressedTimes = [Date.now()];
-    setInterval(
+    this.clockIntervalID = setInterval(
       () => {
         this.executionTime = new Date(0);
         this.executionTime.setSeconds((Date.now() - this.buttonPressedTimes[0]) / 1000);
         this.executionTimeText = this.executionTime.toISOString().substr(11, 8);
       },
       1000);
+
     this.isRunning = true;
   }
 
   finishApp() {
     this.isRunning = false;
     this.pressedKeyChar = '';
+    clearInterval(this.clockIntervalID);
+
   }
 
   randomInt(max: number) {
