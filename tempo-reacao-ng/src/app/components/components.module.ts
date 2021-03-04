@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TeclaCardComponent } from "./tecla-card/tecla-card.component";
+import { BubbleCardComponent } from "./bubble-card/bubble-card.component";
 
 
 @NgModule({
     imports: [CommonModule],
-    declarations: [TeclaCardComponent],
-    exports: [TeclaCardComponent]
+    declarations: [BubbleCardComponent],
+    exports: [BubbleCardComponent]
 })
 
 export class ComponentsModule { }

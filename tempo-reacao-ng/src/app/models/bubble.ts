@@ -1,6 +1,6 @@
 import { COLOR } from "../enums/color";
 
-class Bubble {
+export class Bubble {
     static qtdColors: number = 3;
 
     key: string;
@@ -54,24 +54,4 @@ class Bubble {
         }
     }
 
-    // getColorNameById(colorID: number): string {
-    //     switch (colorID) {
-    //         case COLOR.RED:
-    //             return 'danger';
-
-    //         case COLOR.GREEN:
-    //             return 'success';
-
-    //         case COLOR.BLUE:
-    //             return 'primary';
-
-    //         case COLOR.YELLOW:
-    //             return 'warning';
-
-    //         default:
-    //             return ''
-    //     }
-    // }
 }
-
-export { Bubble };
