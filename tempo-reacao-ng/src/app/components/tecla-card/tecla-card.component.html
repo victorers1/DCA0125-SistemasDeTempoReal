@@ -1,7 +1,7 @@
-<ion-card mode="ios" class="ion-text-center" [color]="key.correct ? 'success' : key.correct==false? 'danger': ''">
+<ion-card mode="ios" class="ion-text-center" [color]="bubble.colorName">
   <ion-card-header>
     <ion-card-title>
-      <div [id]="key.id">{{key.letter.toUpperCase()}}</div>
+      <div [id]="bubble.id" *ngIf="bubble.key.length==1">{{bubble.key.toUpperCase()}}</div>
     </ion-card-title>
   </ion-card-header>
 </ion-card>

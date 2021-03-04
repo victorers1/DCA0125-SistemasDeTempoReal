@@ -1,31 +1,29 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { AlertController, IonContent, IonInput } from '@ionic/angular';
-import Key from '../../models/key';
-
+import { COLOR } from 'src/app/enums/color';
+import { Utils } from 'src/app/utils/utils';
+import { Bubble } from "../../models/bubble";
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  @ViewChild('inputChar', { static: false }) inputChar: IonInput;
-  //TODO: focus ion-input when test starts
 
   isRunning: boolean = false;
+  score: number = 0;
 
-  chars: string = 'qweasdzxcrtyfghvbnuiojklm,.pç;/1234567890[]';
-  qtdKeys: number = 55;
-  keys: Key[] = [];
-  nextKeyIndex: number = 0;
-  pressedKeyChar: string;
+  qtdBubbles: number = 45;
+  bubbles: Bubble[];
+  activeBubbleIndex: number;
+  keyPressedCount: number = 0;
 
   reactionTimes: number[] = [];
   buttonPressedTimes: number[] = [];
 
   executionTime: Date;
   executionTimeText: string = '00:00:00';
-
-  clockIntervalID;
+  clockIntervalID: any;
 
   constructor(public alertController: AlertController) { }
 
@@ -34,21 +32,16 @@ export class HomePage {
       this.finishApp();
     } else {
       this.initApp();
-      // TODO: focus ion-input
     }
   }
-
   initApp() {
-    const qtdChars = this.chars.length;
-    this.keys = [];
+    this.score = 0;
+    this.keyPressedCount = 0;
+    this.bubbles = Array.from(Array(this.qtdBubbles)).map((arr, index) => new Bubble(index));
     this.reactionTimes = [];
-    this.buttonPressedTimes = [];
-    for (let i = 0; i < this.qtdKeys; i++) {
-      this.keys.push(new Key(i, this.chars[this.randomInt(qtdChars)], null));
-    }
-    this.nextKeyIndex = 0;
-    this.pressedKeyChar = '';
     this.buttonPressedTimes = [Date.now()];
+    this.activeBubbleIndex = Utils.randomInt(this.qtdBubbles - 1);
+    this.updateBubbleArray();
     this.clockIntervalID = setInterval(
       () => {
         this.executionTime = new Date(0);
@@ -56,44 +49,48 @@ export class HomePage {
         this.executionTimeText = this.executionTime.toISOString().substr(11, 8);
       },
       1000);
-
     this.isRunning = true;
+    console.log('bubbles:', this.bubbles);
   }
-
   finishApp() {
     this.isRunning = false;
-    this.pressedKeyChar = '';
     clearInterval(this.clockIntervalID);
-
   }
 
-  randomInt(max: number) {
-    return Math.floor(Math.random() * max);
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event);
+    if (!this.isRunning) return;
+
+    if (this.isKeyCorrect(event.key)) {
+      this.keyPressedCount++;
+      this.countTimes();
+      this.score++;
+    }
+    this.updateBubbleArray();
   }
 
-  onKeyPressed(s: string): void {
-    this.pressedKeyChar = s[s.length - 1];
-    this.keys[this.nextKeyIndex].correct = this.pressedKeyChar === this.keys[this.nextKeyIndex].letter;
-
-    this.nextKeyIndex++;
-
+  countTimes() {
     this.buttonPressedTimes.push(Date.now());
     this.reactionTimes.push(
-      this.buttonPressedTimes[this.nextKeyIndex] -
-      this.buttonPressedTimes[this.nextKeyIndex - 1]
+      this.buttonPressedTimes[this.keyPressedCount] -
+      this.buttonPressedTimes[this.keyPressedCount - 1]
     );
+  }
+  isKeyCorrect(key: string): boolean {
+    return this.bubbles[this.activeBubbleIndex].key === key;
+  }
+  updateBubbleArray() {
+    this.bubbles[this.activeBubbleIndex].colorValue = COLOR.LIGHT;
+    this.bubbles[this.activeBubbleIndex].key = '';
+
+    this.activeBubbleIndex = Utils.randomInt(this.qtdBubbles - 1);
+    this.bubbles[this.activeBubbleIndex].colorValue = Utils.randomInt(Bubble.qtdColors);
   }
 
   calcReactionMeanSeconds(): string {
     let accumSum: number = this.reactionTimes.reduce((sum, current) => sum + current, 0);
     return (accumSum / (this.reactionTimes.length || 1) / 1000).toFixed(1);
-  }
-
-  calcScore(): number {
-    return this.keys.reduce(
-      (sum, key) => sum + (key.correct === true ? 1 : 0),
-      0
-    );
   }
 
   async showInstructions() {

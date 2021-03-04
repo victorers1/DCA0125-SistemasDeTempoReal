@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Key from 'src/app/models/key';
+import { COLOR } from 'src/app/enums/color';
+import { Bubble } from 'src/app/models/bubble';
 
 @Component({
   selector: 'tecla-card',
@@ -7,11 +8,9 @@ import Key from 'src/app/models/key';
   styleUrls: ['./tecla-card.component.scss'],
 })
 export class TeclaCardComponent implements OnInit {
-  @Input() key: Key;
+  @Input() bubble: Bubble;
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() { }
 }
