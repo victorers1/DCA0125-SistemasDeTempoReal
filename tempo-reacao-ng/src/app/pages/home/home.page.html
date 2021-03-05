@@ -7,9 +7,16 @@
       <ion-button (click)="toggleApp()" expand="block" fill="solid" color="primary">
         {{isRunning ? "Parar" : "Iniciar"}}
       </ion-button>
-      <ion-button (click)="showInstructions()">
+
+      <ion-item>
+        <ion-label>Delay nas letras</ion-label>
+        <ion-toggle [(ngModel)]="delayedBubbles"></ion-toggle>
+      </ion-item>
+
+
+      <!-- <ion-button (click)="showInstructions()">
         <ion-icon slot="icon-only" name="help-outline"></ion-icon>
-      </ion-button>
+      </ion-button> -->
     </ion-buttons>
   </ion-toolbar>
 

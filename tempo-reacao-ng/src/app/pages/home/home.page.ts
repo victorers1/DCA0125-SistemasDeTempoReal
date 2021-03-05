@@ -3,17 +3,19 @@ import { AlertController, IonContent, IonInput } from '@ionic/angular';
 import { COLOR } from 'src/app/enums/color';
 import { Utils } from 'src/app/utils/utils';
 import { Bubble } from "../../models/bubble";
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
 
   isRunning: boolean = false;
   score: number = 0;
 
-  qtdBubbles: number = 45;
+  qtdBubbles: number = 40;
   bubbles: Bubble[];
   activeBubbleIndex: number;
   keyPressedCount: number = 0;
@@ -24,6 +26,8 @@ export class HomePage {
   executionTime: Date;
   executionTimeText: string = '00:00:00';
   clockIntervalID: any;
+
+  delayedBubbles: boolean = false;
 
   constructor(public alertController: AlertController) { }
 
@@ -50,7 +54,6 @@ export class HomePage {
       },
       1000);
     this.isRunning = true;
-    console.log('bubbles:', this.bubbles);
   }
   finishApp() {
     this.isRunning = false;
@@ -66,8 +69,9 @@ export class HomePage {
       this.keyPressedCount++;
       this.countTimes();
       this.score++;
+
+      this.updateBubbleArray();
     }
-    this.updateBubbleArray();
   }
 
   countTimes() {
@@ -80,9 +84,11 @@ export class HomePage {
   isKeyCorrect(key: string): boolean {
     return this.bubbles[this.activeBubbleIndex].key === key;
   }
-  updateBubbleArray() {
+  async updateBubbleArray() {
     this.bubbles[this.activeBubbleIndex].colorValue = COLOR.LIGHT;
     this.bubbles[this.activeBubbleIndex].key = '';
+
+    if (this.delayedBubbles) await Utils.delay(Math.random() * 1000);
 
     this.activeBubbleIndex = Utils.randomInt(this.qtdBubbles - 1);
     this.bubbles[this.activeBubbleIndex].colorValue = Utils.randomInt(Bubble.qtdColors);
