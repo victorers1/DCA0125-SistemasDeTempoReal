@@ -69,7 +69,6 @@ export class HomePage {
       this.keyPressedCount++;
       this.countTimes();
       this.score++;
-
       this.updateBubbleArray();
     }
   }
