@@ -98,6 +98,13 @@ export class HomePage {
     return (accumSum / (this.reactionTimes.length || 1) / 1000).toFixed(1);
   }
 
+  getLastReactionTime(): string {
+    if (this.reactionTimes.length > 0) {
+      return (this.reactionTimes[this.reactionTimes.length - 1] / 1000).toFixed(1);
+    }
+    return '0.0';
+  }
+
   async showInstructions() {
     const alert = await this.alertController.create({
       header: 'Instruções',

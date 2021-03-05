@@ -22,13 +22,18 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size="4">
-        <div>Tempo: {{executionTimeText}}</div>
+      <ion-col size="3">
+        <div>Tempo execução: {{executionTimeText}}</div>
       </ion-col>
-      <ion-col size="4">
+      <ion-col size="3">
+        <div>Tempo de reação: {{getLastReactionTime()}} s</div>
+      </ion-col>
+
+      <ion-col size="3">
         <div>Média: {{calcReactionMeanSeconds()}} s</div>
       </ion-col>
-      <ion-col size="4">
+
+      <ion-col size="3">
         <div>Score: {{score}}</div>
       </ion-col>
     </ion-row>
