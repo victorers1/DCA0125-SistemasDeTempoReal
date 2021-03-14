@@ -12,15 +12,15 @@
 
 #include <sys/types.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
 
 void grandson1()
 {
-    const int YEARS_TO_LIVE = 12;
+    const auto YEARS_TO_LIVE = 12;
 
     sleep(YEARS_TO_LIVE);
     cout << "Neto 1 (" << getpid() << ") morre aos " << YEARS_TO_LIVE << " anos\n";
@@ -28,7 +28,7 @@ void grandson1()
 
 void grandson2()
 {
-    const int YEARS_TO_LIVE = 18;
+    const auto YEARS_TO_LIVE = 18;
 
     sleep(YEARS_TO_LIVE);
     cout << "Neto 2 (" << getpid() << ") morre aos " << YEARS_TO_LIVE << " anos\n";
@@ -36,8 +36,8 @@ void grandson2()
 
 void son1()
 {
-    const int YEARS_BEFORE_SON = 12;
-    const int YEARS_AFTER_SON = 18;
+    const auto YEARS_BEFORE_SON = 12;
+    const auto YEARS_AFTER_SON = 18;
     sleep(YEARS_BEFORE_SON);
     pid_t pid = fork();
     switch (pid)
@@ -58,8 +58,8 @@ void son1()
 
 void son2()
 {
-    const int YEARS_BEFORE_SON = 14;
-    const int YEARS_AFTER_SON = 16;
+    const auto YEARS_BEFORE_SON = 14;
+    const auto YEARS_AFTER_SON = 16;
 
     sleep(YEARS_BEFORE_SON);
     pid_t pid = fork();
@@ -81,8 +81,8 @@ void son2()
 
 void father()
 {
-    const int YEARS_BEFORE_SON1 = 14;
-    const int YEARS_BEFORE_SON2 = 2;
+    const auto YEARS_BEFORE_SON1 = 14;
+    const auto YEARS_BEFORE_SON2 = 2;
     const int YEARS_AFTER_SON2 = 44;
 
     cout << "Pai nasce com PID " << getpid() << "\n";
