@@ -33,11 +33,11 @@ int main()
       printf("\t Vou dormir um pouco\n");
     }
     break;
-  default: // excução do processo Pai
+  default: // execução do processo Pai
     sleep(3);
     printf(" \nEu sou o processo Pai o meu número de PID =  %d\n", getpid());
-    printf(" Sou o Prcesso Pai. Acabei de ter um Filho. O PID dele é PID =  %d\n", pid);
-    printf(" Sou o Prcesso Pai. O Meu Pai (Avô) é o PID =  %d\n", getppid());
+    printf(" Sou o Processo Pai. Acabei de ter um Filho. O PID dele é PID =  %d\n", pid);
+    printf(" Sou o Processo Pai. O Meu Pai (Avô) é o PID =  %d\n", getppid());
     printf(" Fim do Processo Pai\n");
     break;
   }
