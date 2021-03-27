@@ -20,30 +20,33 @@ using namespace std;
 
 void grandson1()
 {
-    const auto YEARS_TO_LIVE = 12;
+    const auto YEARS_TO_LIVE = 6;
 
     sleep(YEARS_TO_LIVE);
     cout << "Neto 1 (" << getpid() << ") morre aos " << YEARS_TO_LIVE << " anos\n";
+    exit(1);
 }
 
 void grandson2()
 {
-    const auto YEARS_TO_LIVE = 18;
+    const auto YEARS_TO_LIVE = 9;
 
     sleep(YEARS_TO_LIVE);
     cout << "Neto 2 (" << getpid() << ") morre aos " << YEARS_TO_LIVE << " anos\n";
+    exit(1);
 }
 
 void son1()
 {
-    const auto YEARS_BEFORE_SON = 12;
-    const auto YEARS_AFTER_SON = 18;
+    const auto YEARS_BEFORE_SON = 6;
+    const auto YEARS_AFTER_SON = 9;
     sleep(YEARS_BEFORE_SON);
     pid_t pid = fork();
     switch (pid)
     {
     case -1:
         cout << "Criacao do neto 1 falhou\n";
+        exit(1);
         break;
     case 0:
         cout << "Filho 1 tem neto 1 (" << getpid() << ") aos " << YEARS_BEFORE_SON << " anos\n"; // TODO imprimir PID do neto1
@@ -52,14 +55,15 @@ void son1()
     default:
         sleep(YEARS_AFTER_SON);
         cout << "Filho 1 morre aos " << YEARS_AFTER_SON + YEARS_BEFORE_SON << " anos\n";
+        exit(1);
         break;
     }
 }
 
 void son2()
 {
-    const auto YEARS_BEFORE_SON = 14;
-    const auto YEARS_AFTER_SON = 16;
+    const auto YEARS_BEFORE_SON = 7;
+    const auto YEARS_AFTER_SON = 8;
 
     sleep(YEARS_BEFORE_SON);
     pid_t pid = fork();
@@ -67,6 +71,7 @@ void son2()
     {
     case -1:
         cout << "Criacao do neto 2 falhou\n";
+        exit(1);
         break;
     case 0:
         cout << "Filho 2 tem neto 2 (" << getpid() << ") aos " << YEARS_BEFORE_SON << " anos\n";
@@ -75,15 +80,16 @@ void son2()
     default:
         sleep(YEARS_AFTER_SON);
         cout << "Filho 2 morre aos " << YEARS_AFTER_SON + YEARS_BEFORE_SON << " anos\n";
+        exit(1);
         break;
     }
 }
 
 void father()
 {
-    const auto YEARS_BEFORE_SON1 = 14;
-    const auto YEARS_BEFORE_SON2 = 2;
-    const int YEARS_AFTER_SON2 = 44;
+    const auto YEARS_BEFORE_SON1 = 7;
+    const auto YEARS_BEFORE_SON2 = 1;
+    const int YEARS_AFTER_SON2 = 22;
 
     cout << "Pai nasce com PID " << getpid() << "\n";
 
@@ -117,6 +123,7 @@ void father()
         default:
             sleep(YEARS_AFTER_SON2);
             cout << "Pai morre aos " << YEARS_BEFORE_SON1 + YEARS_BEFORE_SON2 + YEARS_AFTER_SON2 << " anos \n";
+            exit(1);
             break;
         }
         break;
