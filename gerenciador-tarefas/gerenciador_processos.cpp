@@ -32,36 +32,42 @@ int promptInt(string name)
 
 void killTask()
 {
+    cout << "KILL PROCESS\n";
     int pid = promptInt("PID");
     printf("Process %d was ", pid);
-    cout << kill(pid, SIGKILL) ? "NOT killed due to an error" : "successfully killed";
+    cout << (kill(pid, SIGKILL) ? "NOT killed due to an error" : "successfully killed");
+
     cout << endl;
 }
 
 void pauseTask()
 {
+    cout << "PAUSE PROCESS\n";
     int pid = promptInt("PID");
     printf("Process %d was ", pid);
-    cout << kill(pid, SIGSTOP) ? "NOT stopped due to an error" : "successfully stopped";
+    cout << (kill(pid, SIGSTOP) ? "NOT stopped due to an error" : "successfully stopped");
     cout << endl;
 }
 
 void continueTask()
 {
+    cout << "CONTINUE PROCESS\n";
     int pid = promptInt("PID");
     printf("Process %d was ", pid);
-    cout << kill(pid, SIGCONT) ? "NOT continued due to an error" : "successfully continued";
+    cout << (kill(pid, SIGCONT) ? "NOT continued due to an error" : "successfully continued");
     cout << endl;
 }
 
 void setTaskPriority()
 {
+    cout << "SET PROCESS PRIORITY\n";
     int pid = promptInt("PID"), priority = promptInt("Priority");
     printf("Process %d is ", pid);
 }
 
 void setTaskCore()
 {
+    cout << "SET PROCESS CPU\n";
     int pid = promptInt("PID"), core = promptInt("New core");
 
     cpu_set_t mask;
@@ -85,6 +91,7 @@ void setTaskCore()
 
 void filterTask()
 {
+    cout << "FILTER PROCESS\n";
     int pid = promptInt("PID");
 }
 
@@ -97,10 +104,9 @@ int main(int argc, char const *argv[])
     do
     {
         system("clear");
-        cout << "Processes:";
         system(view_processes_command.c_str());
 
-        cout << "\n\nChoose command to run:";
+        cout << "\n\nMENU";
         cout << "\n1 - Kill";
         cout << "\n2 - Pause";
         cout << "\n3 - Continue";
@@ -108,7 +114,7 @@ int main(int argc, char const *argv[])
         cout << "\n5 - Set core";
         cout << "\n6 - Task Tree";
         cout << "\n7 - Filter";
-        cout << "\n8 - Sair";
+        cout << "\n8 - Close\n\n";
 
         switch (option)
         {
@@ -145,8 +151,10 @@ int main(int argc, char const *argv[])
             break;
         }
 
-        // sleep(1);
+        cout << "\n\nChoose command to run: ";
     } while (cin >> option && option != 8);
+
+    cout << "Program finnished\n";
 
     return 0;
 }
