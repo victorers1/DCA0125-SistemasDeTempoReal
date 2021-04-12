@@ -77,17 +77,6 @@ void setTaskCore()
     printf("Process %d was ", pid);
     cout << (sched_setaffinity(pid, sizeof(mask), &mask) ? "NOT changed due to an error" : "successfully changed");
     printf(" running on core %d", core);
-
-    // if (sched_setaffinity(pid, sizeof(mask), &mask) == 0)
-    // {
-    //     printf("now running on core %d", core);
-    //     sleep(2);
-    //     system("clear");
-    // }
-    // else
-    // {
-    //     printf("NOT running on core %d due to an error", core);
-    // }
 }
 
 void filterTask()
