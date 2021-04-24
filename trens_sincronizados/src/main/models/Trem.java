@@ -7,10 +7,10 @@ import javafx.scene.shape.Rectangle;
 public class Trem {
     private Color cor = Color.BLACK;
     private Integer velocidade = 0;
-    private Integer lado = 0;
+    private Integer comprimento = 30, altura = 15;
 
     public Node getTremNode() {
-        final var trem = new Rectangle(lado, lado);
+        final var trem = new Rectangle(comprimento, altura);
         trem.setFill(this.cor);
         return trem;
     }
@@ -30,14 +30,4 @@ public class Trem {
     public void setVelocidade(Integer velocidade) {
         this.velocidade = velocidade;
     }
-
-    public Integer getLado() {
-        return lado;
-    }
-
-    public void setLado(Integer lado) {
-        this.lado = lado;
-    }
-
-
 }
