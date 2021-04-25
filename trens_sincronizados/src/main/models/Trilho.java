@@ -1,11 +1,11 @@
 package main.models;
 
 import javafx.animation.PathTransition;
-import javafx.geometry.Point3D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
+import main.utils.ReverseInterpolator;
 
 public class Trilho {
     private Ponto origem = new Ponto(0, 0);
@@ -13,6 +13,7 @@ public class Trilho {
     private Integer angulo = 0; // Em graus
     private Color cor = Color.BLACK;
     private Line linha;
+
 
     public Trilho(Ponto origem, Integer comprimento, Integer angulo) {
         this.origem = origem;
@@ -23,13 +24,17 @@ public class Trilho {
         linha.getTransforms().add(new Rotate(angulo, origem.getX(), origem.getY()));
     }
 
-    public PathTransition moverTrem(Trem trem) {
+    public PathTransition moverTrem(Trem trem, boolean inverterLinha) {
         final var transition = new PathTransition();
-        transition.setNode(trem.getTremNode());
+        transition.setNode(trem.getDesenho());
         transition.setDuration(Duration.seconds(trem.getVelocidade()));
         transition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         transition.setPath(linha);
+        if (inverterLinha)
+            transition.setInterpolator(ReverseInterpolator.reverse(transition.getInterpolator()));
+
         return transition;
+//        transition.setRate(inverterLinha ? -1: 1);
     }
 
     public Ponto getOrigem() {
