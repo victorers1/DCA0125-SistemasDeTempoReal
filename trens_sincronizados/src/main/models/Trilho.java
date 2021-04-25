@@ -8,14 +8,15 @@ import javafx.util.Duration;
 import main.utils.ReverseInterpolator;
 
 public class Trilho {
+    private Integer id;
     private Ponto origem = new Ponto(0, 0);
     private Integer comprimento = 0;
     private Integer angulo = 0; // Em graus
     private Color cor = Color.BLACK;
     private Line linha;
 
-
-    public Trilho(Ponto origem, Integer comprimento, Integer angulo) {
+    public Trilho(Integer id, Ponto origem, Integer comprimento, Integer angulo) {
+        this.id = id;
         this.origem = origem;
         this.comprimento = comprimento;
         this.angulo = angulo;
@@ -24,17 +25,27 @@ public class Trilho {
         linha.getTransforms().add(new Rotate(angulo, origem.getX(), origem.getY()));
     }
 
-    public PathTransition moverTrem(Trem trem, boolean inverterLinha) {
+    public PathTransition moverTrem(Trem trem, boolean inverterAnimacao)  {
         final var transition = new PathTransition();
         transition.setNode(trem.getDesenho());
         transition.setDuration(Duration.seconds(trem.getVelocidade()));
         transition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         transition.setPath(linha);
-        if (inverterLinha)
+        if (inverterAnimacao) {
             transition.setInterpolator(ReverseInterpolator.reverse(transition.getInterpolator()));
+        }
+        transition.play();
+        try {
+            Thread.sleep(trem.getVelocidade()*1000);
+        } catch (InterruptedException ex){
+            ex.printStackTrace();
+        }
 
         return transition;
-//        transition.setRate(inverterLinha ? -1: 1);
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Ponto getOrigem() {

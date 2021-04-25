@@ -38,9 +38,7 @@ public class Main extends Application {
         c.setFill(Color.RED);
         mundo.getChildren().add(c);
 
-        controller.ligarPista(0, 0);
-        controller.ligarPista(1, 1);
-        controller.ligarPista(2, 2);
+        controller.ligarPistas();
 
         return mundo;
     }
