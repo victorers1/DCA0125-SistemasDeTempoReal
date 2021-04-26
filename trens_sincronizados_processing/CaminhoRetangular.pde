@@ -27,7 +27,8 @@ class Caminho {
     this.mutexL4 = mutexs.get(1);
     this.mutexL6 = mutexs.get(2);
 
-    if (trem.cor == color(0, 0, 255)) {
+//TODO: nenhuma condição é satisfeita
+    if (trem.cor == color(0, 0, 255)) { //<>//
       moverTremAzul(trem);
     } else if (trem.cor == color(0, 255, 0)) {
       moverTremVerde(trem);

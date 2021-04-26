@@ -8,7 +8,16 @@ void setup() {
 
   stroke(255, 0, 0);
   circle(60, 60, 5);
+  
+  
+  color c = color(255,0,0);
+  
+  if(c == color(255,0,0)){
+    System.out.println("cor correta");
+  }
 }
 
-void draw() {
+
+void draw(){
+  controller.getDesenho();
 }

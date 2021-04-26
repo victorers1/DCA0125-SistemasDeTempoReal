@@ -1,5 +1,6 @@
 class Trem {
-  final color cor;
+  color cor;
+  //int R=0,G=0,B=0;
   Velocidade velocidade;
   Ponto posicao = new Ponto(0, 0);
   final int comprimento = 15;
@@ -19,8 +20,8 @@ class Trem {
   }
 
   void mover(Ponto fim) {
-    this.posicao.x += velocidade.dx * (fim.x - this.posicao.x);
-    this.posicao.y += velocidade.dy * (fim.y - this.posicao.y);
+    this.posicao.x += velocidade.dx * (fim.x - this.posicao.x) * 0.01;
+    this.posicao.y += velocidade.dy * (fim.y - this.posicao.y) * 0.01;
   }
 
   boolean contidoEm(Ponto origem, Ponto fim) {

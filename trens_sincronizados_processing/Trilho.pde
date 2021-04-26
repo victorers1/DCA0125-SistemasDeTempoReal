@@ -17,6 +17,7 @@ class Trilho {
 
   void getDesenho() {
     strokeWeight(3);
-    line(origem.x, origem.y, fim.x, fim.y); //<>//
+    stroke(0);
+    line(origem.x, origem.y, fim.x, fim.y);
   }
 }

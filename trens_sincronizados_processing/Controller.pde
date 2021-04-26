@@ -12,7 +12,7 @@ class Controller {
   Ponto inicioL2 = new Ponto(60, 60);
   Ponto fimL2 = new Ponto(260, 60);
 
-  Ponto inicioL3 = new Ponto(60, 60);
+  Ponto inicioL3 = new Ponto(260, 60);
   Ponto fimL3 = new Ponto(260, 260);
 
   Ponto inicioL4 = new Ponto(260, 260);
@@ -44,12 +44,12 @@ class Controller {
     new ReentrantLock()  
     ));
 
-  Velocidade vel = new Velocidade(10, 10);
+  Velocidade vel = new Velocidade(1, 1);
   ArrayList<Trem> trens = new ArrayList<Trem>(
     Arrays.asList(
-    new Trem(0, 0, 255, fimL1, vel), 
+    new Trem(0, 0, 255, inicioL1, vel), 
     new Trem(0, 255, 0, fimL3, vel), 
-    new Trem(255, 0, 0, fimL9, vel)
+    new Trem(255, 0, 0, inicioL10, vel)
     )
     );
   ArrayList<Caminho> pistas;
@@ -59,7 +59,7 @@ class Controller {
   Thread threadVermelho;
 
   Controller() {
-    Trilho trilho1 = new Trilho(1, inicioL1, fimL1); //<>//
+    Trilho trilho1 = new Trilho(1, inicioL1, fimL1);
     Trilho trilho2 = new Trilho(2, inicioL2, fimL2);
     Trilho trilho3 = new Trilho(3, inicioL3, fimL3);
     Trilho trilho4 = new Trilho(4, inicioL4, fimL4);
@@ -87,6 +87,8 @@ class Controller {
       pista2, 
       pista3
       ));
+      
+      iniciaPistas();
   }
 
   void getDesenho() {
@@ -105,6 +107,13 @@ class Controller {
         public void run() {
         while (true) {
           pistas.get(0).moverTrem(mutexList, trens.get(0));
+          try {
+            Thread.sleep(1000);
+            System.out.println("dormiu 1s");
+          } 
+          catch(InterruptedException ex) {
+            System.out.println("Falha em sleep");
+          }
         }
       }
     };
@@ -114,6 +123,13 @@ class Controller {
         public void run() {
         while (true) {
           pistas.get(1).moverTrem(mutexList, trens.get(1));
+          try {
+            Thread.sleep(1000);
+            System.out.println("dormiu 1s");
+          } 
+          catch(InterruptedException ex) {
+            System.out.println("Falha em sleep");
+          }
         }
       }
     };
@@ -123,13 +139,21 @@ class Controller {
         public void run() {
         while (true) {
           pistas.get(2).moverTrem(mutexList, trens.get(2));
+          try {
+            Thread.sleep(1000);
+            System.out.println("dormiu 1s");
+          } 
+          catch(InterruptedException ex) {
+            System.out.println("Falha em sleep");
+          }
         }
       }
     };
+    
+    threadAzul.setDaemon(true);
 
-
-    threadVerde.start();
     threadAzul.start();
-    threadVermelho.start();
+    //threadVerde.start();
+    //threadVermelho.start();
   }
 }
