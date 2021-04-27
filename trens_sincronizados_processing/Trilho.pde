@@ -3,8 +3,6 @@ class Trilho {
   Ponto origem = new Ponto(0, 0);
   Ponto fim = new Ponto(0, 0);
 
-  color cor = color(0, 0, 0);
-
   public Trilho(int id, Ponto origem, Ponto fim) {
     this.id = id;
     this.origem = origem;
@@ -17,7 +15,6 @@ class Trilho {
     }else {
       trem.mover(origem, fim);
     }
-    
   }
 
   void getDesenho() {

@@ -45,14 +45,13 @@ class Controller {
     new ReentrantLock()  
     ));
 
-  Velocidade vel = new Velocidade(1, 1);
   ArrayList<Trem> trens = new ArrayList<Trem>(
     Arrays.asList(
-    new Trem(0, 0, 255, inicioL1.copia(), vel), 
-    new Trem(0, 255, 0, fimL3.copia(), vel), 
-    new Trem(255, 0, 0, inicioL10.copia(), vel)
-    )
-    );
+    new Trem(0, 0, 255, inicioL1.copia(), new Velocidade(1, 1)), 
+    new Trem(0, 255, 0, fimL3.copia(), new Velocidade(1, 1)), 
+    new Trem(255, 0, 0, inicioL10.copia(), new Velocidade(1, 1))
+    ));
+    
   ArrayList<Caminho> pistas;
 
   Thread threadVerde;

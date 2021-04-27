@@ -9,6 +9,7 @@ import main.models.Trilho;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Controller {
     Ponto origem = new Ponto(140, 250);
@@ -23,11 +24,16 @@ public class Controller {
     );
     ArrayList<CaminhoRetangular> pistas;
 
+    ReentrantLock mutex = new ReentrantLock();
+
     Thread threadVerde;
     Thread threadAzul;
     Thread threadVermelho;
 
     Controller(Ponto origem, Integer lado) {
+        mutex.isLocked()
+
+
         this.origem = origem;
         this.lado = lado;
 

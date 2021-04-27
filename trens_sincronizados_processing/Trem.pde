@@ -23,7 +23,7 @@ class Trem {
   }
 
   void mover(Ponto origem, Ponto fim) {
-    this.posicao.x += velocidade.dx *(fim.x - origem.x)  * 0.01;
+    this.posicao.x += velocidade.dx * (fim.x - origem.x)  * 0.01;
     this.posicao.y += velocidade.dy * (fim.y - origem.y) * 0.01;
 
     // trata pontos extremos
@@ -50,7 +50,6 @@ class Trem {
       int menorX = origem.x < fim.x ? origem.x : fim.x;
       return posicao.y == origem.y && posicao.x >= menorX && posicao.x <= maiorX;
     }
-
     return false;
   }
 }
