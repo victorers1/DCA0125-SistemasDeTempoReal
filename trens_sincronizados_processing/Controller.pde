@@ -5,6 +5,8 @@ import java.lang.Thread;
 class Controller {
   Ponto origem = new Ponto(60, 60);
   int lado = 200;
+  
+  int delayInMillis = 50; 
 
   Ponto inicioL1 = new Ponto(60, 260);
   Ponto fimL1 = new Ponto(60, 60);
@@ -36,7 +38,6 @@ class Controller {
   Ponto inicioL10 = new Ponto(60, 460);
   Ponto fimL10 = new Ponto(60, 260);
 
-
   ArrayList<ReentrantLock> mutexList = new ArrayList<ReentrantLock>(
     Arrays.asList( 
     new ReentrantLock(), 
@@ -47,9 +48,9 @@ class Controller {
   Velocidade vel = new Velocidade(1, 1);
   ArrayList<Trem> trens = new ArrayList<Trem>(
     Arrays.asList(
-    new Trem(0, 0, 255, inicioL1, vel), 
-    new Trem(0, 255, 0, fimL3, vel), 
-    new Trem(255, 0, 0, inicioL10, vel)
+    new Trem(0, 0, 255, inicioL1.copia(), vel), 
+    new Trem(0, 255, 0, fimL3.copia(), vel), 
+    new Trem(255, 0, 0, inicioL10.copia(), vel)
     )
     );
   ArrayList<Caminho> pistas;
@@ -108,11 +109,10 @@ class Controller {
         while (true) {
           pistas.get(0).moverTrem(mutexList, trens.get(0));
           try {
-            Thread.sleep(1000);
-            System.out.println("dormiu 1s");
+            Thread.sleep(delayInMillis);
           } 
           catch(InterruptedException ex) {
-            System.out.println("Falha em sleep");
+            System.out.println("Falha em sleep azul");
           }
         }
       }
@@ -124,11 +124,10 @@ class Controller {
         while (true) {
           pistas.get(1).moverTrem(mutexList, trens.get(1));
           try {
-            Thread.sleep(1000);
-            System.out.println("dormiu 1s");
+            Thread.sleep(delayInMillis);
           } 
           catch(InterruptedException ex) {
-            System.out.println("Falha em sleep");
+            System.out.println("Falha em sleep verde");
           }
         }
       }
@@ -140,20 +139,21 @@ class Controller {
         while (true) {
           pistas.get(2).moverTrem(mutexList, trens.get(2));
           try {
-            Thread.sleep(1000);
-            System.out.println("dormiu 1s");
+            Thread.sleep(delayInMillis);
           } 
           catch(InterruptedException ex) {
-            System.out.println("Falha em sleep");
+            System.out.println("Falha em sleep vermelho");
           }
         }
       }
     };
     
     threadAzul.setDaemon(true);
+    threadVerde.setDaemon(true);
+    threadVermelho.setDaemon(true);
 
     threadAzul.start();
-    //threadVerde.start();
-    //threadVermelho.start();
+    threadVerde.start();
+    threadVermelho.start();
   }
 }

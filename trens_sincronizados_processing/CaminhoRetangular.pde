@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.ArrayList; //<>//
 import java.util.concurrent.locks.ReentrantLock;
 
 class Caminho {
@@ -27,61 +27,79 @@ class Caminho {
     this.mutexL4 = mutexs.get(1);
     this.mutexL6 = mutexs.get(2);
 
-//TODO: nenhuma condição é satisfeita
-    if (trem.cor == color(0, 0, 255)) { //<>//
+    if (trem.B > 0) {
       moverTremAzul(trem);
-    } else if (trem.cor == color(0, 255, 0)) {
+      //System.out.println("posição azul: (" + trem.posicao.x + " , " + trem.posicao.y +")");
+    } else if (trem.G > 0) {
       moverTremVerde(trem);
-    } else if (trem.cor ==color(255, 0, 0)) {
+    } else if (trem.R > 0) {
       moverTremVermelho(trem);
     }
   }
 
   void moverTremAzul(Trem trem) {
+    //System.out.print("posição azul: (" + trem.posicao.x + " , " + trem.posicao.y +")");
 
-    if (trem.contidoEm(inicioL1, fimL1))
-      getTrilhoById(1).moverTrem(trem);
-
-    if (trem.contidoEm(inicioL2, fimL2))  
-      getTrilhoById(2).moverTrem(trem);
-
-
-    if (trem.contidoEm(inicioL3, fimL3)) {
-      mutexL3.lock();
-      mutexL4.lock();
-      getTrilhoById(3).moverTrem(trem);
-      mutexL3.unlock();
-    }
-
-    if (trem.contidoEm(inicioL4, fimL4)) { 
-      getTrilhoById(4).moverTrem(trem);
-      mutexL4.unlock();
+    if (trem.posicao.x == 60 && trem.posicao.y > 60) {  //trem.contidoEm(inicioL1, fimL1)
+      //System.out.println(" - está em L1");
+      getTrilhoById(1).moverTrem(trem, false);
+    } else if (trem.posicao.y == 60 && trem.posicao.x < 260) { //trem.contidoEm(inicioL2, fimL2)
+      //System.out.println(" - está em L2");
+      getTrilhoById(2).moverTrem(trem, false);
+    } else if (trem.posicao.x == 260 && trem.posicao.y < 260) { //trem.contidoEm(inicioL3, fimL3)
+      //System.out.println(" - está em L3");
+      //mutexL3.lock();
+      //mutexL4.lock();
+      getTrilhoById(3).moverTrem(trem, false);
+      //mutexL3.unlock();
+    } else if (trem.posicao.y == 260 && trem.posicao.x>60) { //trem.contidoEm(inicioL4, fimL4)
+      //System.out.println(" - está em L4");
+      getTrilhoById(4).moverTrem(trem, false);
+      //mutexL4.unlock();
     }
   }
 
   void moverTremVerde(Trem trem) {
-    //getTrilhoById(3).moverTrem(trem, true);
-    //getTrilhoById(7).moverTrem(trem, false);
-    //getTrilhoById(5).moverTrem(trem, false);
-
-    //mutexL6.lock();
-    //getTrilhoById(6).moverTrem(trem, false);
-    //mutexL6.unlock();
+    if (trem.posicao.x == 260 && trem.posicao.y > 60) {//trem.contidoEm(inicioL3, fimL3)
+      getTrilhoById(3).moverTrem(trem, true);
+      
+    } else if (trem.posicao.y == 60 && trem.posicao.x < 460 ) { //trem.contidoEm(inicioL7, fimL7)
+      getTrilhoById(7).moverTrem(trem, false);
+      
+    } else if (trem.posicao.x == 460 && trem.posicao.y < 260) { //trem.contidoEm(inicioL5, fimL5)
+      getTrilhoById(5).moverTrem(trem, false);
+      
+    } else if (trem.posicao.y == 260 && trem.posicao.x > 260) {
+      //mutexL6.lock();
+      getTrilhoById(6).moverTrem(trem, false);
+      //mutexL6.unlock();
+    }
   }
 
   void moverTremVermelho(Trem trem) {
-    //getTrilhoById(10).moverTrem(trem, false);
 
-    //mutexL4.lock();
-    //mutexL6.lock();
-    //getTrilhoById(4).moverTrem(trem, true);
-    //mutexL4.unlock();
+    if (trem.contidoEm(inicioL10, fimL10))
+      getTrilhoById(10).moverTrem(trem, false);
 
-    //getTrilhoById(6).moverTrem(trem, true);
-    //mutexL6.unlock();
 
-    //getTrilhoById(8).moverTrem(trem, false);
-    //getTrilhoById(9).moverTrem(trem, false);
+    if (trem.contidoEm(inicioL4, fimL4)) {
+      //mutexL4.lock();
+      //mutexL6.lock();
+      getTrilhoById(4).moverTrem(trem, true);
+      //mutexL4.unlock();
+    }
+
+    if (trem.contidoEm(inicioL6, fimL6))
+    {
+      getTrilhoById(6).moverTrem(trem, true);
+      //mutexL6.unlock();
+    }
+
+    if (trem.contidoEm(inicioL8, fimL8))
+      getTrilhoById(8).moverTrem(trem, false);
+
+    if (trem.contidoEm(inicioL9, fimL9))
+      getTrilhoById(9).moverTrem(trem, false);
   }
 
   public Trilho getTrilhoById(Integer id) {

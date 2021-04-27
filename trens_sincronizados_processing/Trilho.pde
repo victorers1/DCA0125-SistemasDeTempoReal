@@ -11,8 +11,13 @@ class Trilho {
     this.fim = fim;
   }
 
-  void moverTrem(Trem trem) {
-    trem.mover(fim);
+  void moverTrem(Trem trem, boolean inverter) {
+    if(inverter){
+      trem.mover(fim, origem);
+    }else {
+      trem.mover(origem, fim);
+    }
+    
   }
 
   void getDesenho() {
